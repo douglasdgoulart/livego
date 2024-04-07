@@ -150,16 +150,10 @@ func (writer *FLVWriter) Info() (ret av.Info) {
 type FlvDvr struct{}
 
 func (f *FlvDvr) GetWriter(info av.Info) av.WriteCloser {
-	// paths := strings.SplitN(info.Key, "/", 2)
-	// if len(paths) != 2 {
-	// 	log.Warning("invalid info")
-	// 	return nil
-	// }
 	paths := strings.Split(info.Key, "/")
 
 	flvDir := configure.Config.GetString("flv_dir")
 
-	// err := os.MkdirAll(path.Join(flvDir, paths[0]), 0755)
 	err := os.MkdirAll(path.Join(append([]string{flvDir}, paths[:len(paths)-1]...)...), 0755)
 	if err != nil {
 		log.Error("mkdir error: ", err)
